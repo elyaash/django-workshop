@@ -19,9 +19,12 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path,include
 
+handler404 = 'core.views.handler404'
+handler500 = 'core.views.handler500'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
+    path('', include("core.urls")),
 ]
 
 if settings.DEBUG:
