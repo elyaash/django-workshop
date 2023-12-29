@@ -48,14 +48,18 @@ class Csv(models.Model):
         ('C', 'Complete'),
         ('F', 'Failed'),
     ]
-    filename = models.FileField()
+    filename = models.FileField(upload_to='csvs')
     upload_at = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=5, choices = STATUS_CHOICE, default=STATUS_CHOICE_DEFAULT)
 
 # Create your models here.
 class Sales(models.Model):
+
     product     = models.ForeignKey(Product, on_delete=models.CASCADE)
     salesmen    = models.ForeignKey(User,on_delete=models.CASCADE)
     qty   = models.IntegerField(default =1)
     sales_date  =  models.DateField(auto_now_add = True)  
     
+    class Meta:
+        verbose_name = "sales"
+        verbose_name_plural = "sales"

@@ -3,6 +3,7 @@ from django.db.models.aggregates import Count
 from django.utils.html import format_html, urlencode
 from django.urls import reverse
 from . import models
+from .forms import CsvModelFrom
 
 # Register your models here.
 @admin.register(models.Promotion)
@@ -59,7 +60,7 @@ class CollectionAdmin(admin.ModelAdmin):
     @admin.display(ordering='products_count')
     def products_count(self, collection):
         url = (
-            reverse('admin:store_product_changelist')
+            reverse('admin:sales_product_changelist')
             + '?'
             + urlencode({
                 'collection__id': str(collection.id)
@@ -74,12 +75,16 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Sales)
 class SalesAdmin(admin.ModelAdmin):
+
     list_display = ['product','salesmen','sales_date','qty']
-    fields = ['product','salesmen','sales_date','qty']
+    fields = ['product','salesmen','qty']
     list_select_related = ['product','salesmen']
 
+    
 @admin.register(models.Csv)    
 class CsvAdmin(admin.ModelAdmin):
-    list_display = ['filename','status','upload_at']
-    fields = ['filename','status','upload_at']
+    list_display = ['filename','status']
+    fields = ['filename']
     search_fields =["filename"]
+    
+    form = CsvModelFrom
