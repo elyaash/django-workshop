@@ -2,8 +2,13 @@ from django.contrib import admin, messages
 from django.db.models.aggregates import Count
 from django.utils.html import format_html, urlencode
 from django.urls import reverse
+from django.http import HttpResponse
+from .serializers import ProductSerializer
+import csv
 from . import models
 from .forms import CsvModelFrom
+import simplejson as json
+
 
 # Register your models here.
 @admin.register(models.Promotion)
@@ -17,7 +22,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ['title']
     }
-    actions = ['clear_inventory']
+    actions = ['clear_inventory','csv_export','json_export']
     #nlines = [ProductImageInline]
     list_display = ['title', 'unit_price',
                     'inventory_status', 'collection_title']
@@ -44,6 +49,32 @@ class ProductAdmin(admin.ModelAdmin):
             f'{updated_count} products were successfully updated.',
             messages.ERROR
         )
+
+    @admin.action(description='JSON Export')
+    def json_export(self,request,queryset):
+        meta = self.model._meta
+        ps = ProductSerializer(queryset, many=True)
+        response = HttpResponse(json.dumps(ps.data),content_type='text/json')
+        response['Content-Disposition'] = 'attachment; filename={}.json'.format(meta)
+
+        return response
+        
+     
+
+    @admin.action(description='CSV Export')
+    def csv_export(self, request, queryset):
+        meta = self.model._meta
+        field_names = [field.name for field in meta.fields]
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+        writer = csv.writer(response)
+
+        writer.writerow(field_names)
+        for obj in queryset:
+            row = writer.writerow([getattr(obj, field) for field in field_names])
+
+        return response
 
     # class Media:
     #     css = {
@@ -84,7 +115,7 @@ class SalesAdmin(admin.ModelAdmin):
 @admin.register(models.Csv)    
 class CsvAdmin(admin.ModelAdmin):
     list_display = ['filename','status']
-    fields = ['filename']
+    fields = ['filename','propertis']
     search_fields =["filename"]
     
     form = CsvModelFrom

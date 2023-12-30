@@ -8,6 +8,8 @@ django = "*"
 pillow = "*"
 django-admin-menu = "*"
 django-debug-toolbar = "*"
+djangorestframework = "*"
+simplejson = "*"
 
 [dev-packages]
 

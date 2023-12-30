@@ -6,7 +6,9 @@ class Promotion(models.Model):
     description = models.CharField(max_length=255)
     discount = models.FloatField()
 
-
+    def __str__(self) -> str:
+        return self.description
+    
 class Collection(models.Model):
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey(
@@ -50,8 +52,14 @@ class Csv(models.Model):
     ]
     filename = models.FileField(upload_to='csvs')
     upload_at = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=5, choices = STATUS_CHOICE, default=STATUS_CHOICE_DEFAULT)
+    status = models.CharField(max_length=10, choices = STATUS_CHOICE, default=STATUS_CHOICE_DEFAULT)
 
+
+    
+
+    def __str__(self) -> str:
+        return self.filename.name
+    
 # Create your models here.
 class Sales(models.Model):
 
@@ -63,3 +71,6 @@ class Sales(models.Model):
     class Meta:
         verbose_name = "sales"
         verbose_name_plural = "sales"
+
+    def __str__(self) -> str:
+        return "{}".format(self.qty)
