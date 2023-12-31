@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <h1>{{ section.title }}</h1>
+    <link rel="stylesheet" href="{% static 'core/css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.css' %}" />
+  </head>
+  <body>
+    <!-- Navbar here -->
+    {% include 'core/navbar.html' %}
+
+    <!-- Main Content -->
+    <div id="main-content" class="container mt-4" styley="min-height: 400px;">
+      {% block content %}{% endblock %}
+    </div>
+
+    {% include 'core/footer.html' %}
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

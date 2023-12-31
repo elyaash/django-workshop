@@ -1,16 +1,4 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'core/styles.css' %}" />
-  </head>
-  <body>
-    <div class="home-page">
-      <img src="{% static 'core/logo.png' %}" alt="Logo" class="logo" />
-    </div>
-  </body>
-</html>
+{% extends "core/site_base.html" %} {% block content%}
+<h1>Welcome to Your Website</h1>
+<p class="text-primary">This is the main content of your home page.</p>
+{% endblock %}
