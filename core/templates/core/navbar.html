@@ -3,6 +3,9 @@
   <div class="container">
     <a class="navbar-brand" href="/">
         <img src="/static/core/logo.png" width="50px"> </img>
+        {% if user.is_authenticated %}
+        <span class="fs-6">Welcome, {{ user}}</span>
+        {% endif %}
     </a>
     <button
       class="navbar-toggler"
@@ -27,8 +30,13 @@
           <a class="nav-link" href="/contact-us">Contact</a>
         </li>
         <li class="nav-item">
+          {% if user.is_authenticated %}
+          <a class="nav-link" href="/logout">Louout</a>
+          {% else %}
           <a class="nav-link" href="/login">Login</a>
+          {% endif %}
         </li>
+        
       </ul>
     </div>
   </div>
