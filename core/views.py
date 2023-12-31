@@ -1,9 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
 # about us 
+def regiser(request):
 
+    if request.method == "GET":
+        form = UserCreationForm()
+        return render(request,'core/pages/register.html',{'form':form })
+    elif request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()    
+            return redirect('login')
+    return render(request,'core/pages/register.html',{'form': form})
+    
 def login(request):
     if request.method == "GET" :
         return render(request,'core/pages/login.html', {messages:messages})
